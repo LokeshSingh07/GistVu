@@ -124,7 +124,9 @@ export async function getSingleGist({gistId}: {gistId: string}){
 
 export async function getAllGist(){
     try{
-        const gists = await prisma.gist.findMany({});
+        const gists = await prisma.gist.findMany({
+            orderBy: {updatedAt: "desc"}
+        });
 
         return { 
             success: true, 

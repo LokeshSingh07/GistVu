@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 
 export default function Gist() {
   const [code, setCode] = useState<string>("");
+  const [language, setLanguage] = useState<string>("")
   const [loading, setLoading] = useState(false);
   let {gistId} = useParams<{ gistId: string }>();
 
@@ -40,6 +41,7 @@ export default function Gist() {
         }
   
         setCode(response?.gist?.code);
+        setLanguage(response?.gist?.language)
       }
       catch(err){
         console.error("Error fetching code:", err);
@@ -71,7 +73,7 @@ export default function Gist() {
         
         <MonacoEditor
             height={"91vh"}
-            language="javascript"
+            language={language}
             theme="vs-dark"
             value={code}
             options={{ lineNumbers: "on", readOnly: true }}

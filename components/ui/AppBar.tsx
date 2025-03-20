@@ -3,15 +3,19 @@ import { Button } from "./button";
 import { useEffect, useState } from "react";
 import { ArrowRight, Copy, Share } from "lucide-react";
 import Link from "next/link";
+import { Loader } from "./Loader";
+
 
 
 
 export const AppBar = ({
     copyToClipboard,
-    createGistHandler
+    createGistHandler,
+    loading,
 }: {
     copyToClipboard?:()=>void,
-    createGistHandler?:()=>void
+    createGistHandler?:()=>void,
+    loading?: boolean,
 })=>{
     const [isHomePage, setIsHomePage] = useState(false);
     const [isGistPage, setIsGistPage] = useState(false);
@@ -35,7 +39,8 @@ export const AppBar = ({
             !isHomePage && !isGistPage &&  (                     
             <Button
                 onClick={copyToClipboard}
-                className="bg-white text-black cursor-pointer"
+                variant="default"
+                className="cursor-pointer"
             >   
                 <Copy size={16}/>
                 {/* Copy */}
@@ -48,7 +53,7 @@ export const AppBar = ({
             (<div className="flex items-center justify-center gap-4">
                 <Link
                     href={"/gists"}
-                    className="flex justify-center items-center gap-1 p-2 bg-primary border border-gray-800 rounded-md cursor-pointer hover:text-blue-500 px-4"
+                    className="w-full flex justify-center items-center gap-1 p-2 text-primary bg-black rounded-md cursor-pointer hover:text-blue-500 hover:underline px-4"
                 >
                     View all Gists
                     <ArrowRight size={16}/>
@@ -56,9 +61,13 @@ export const AppBar = ({
                 <Button
                     onClick={createGistHandler}
                     className="border border-gray-800 cursor-pointer hover:text-blue-500"
-                    title="Share link"
-                >
-                    <Share />
+                    title="Upload Gist"
+                >   
+                    {
+                        loading ? 
+                        <Loader/>:
+                        <Share />
+                    }
                 </Button>
             </div>)
         }

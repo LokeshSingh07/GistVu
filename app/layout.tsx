@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ToastWrapper } from "@/components/ToastWrapper";
+import { ThemeProvider } from "@/components/ui/theme-provider";
+
 
 
 export const metadata: Metadata = {
@@ -16,9 +18,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`bg-black text-white max-w-[1600px] h-full mx-auto`}
-      >
+        className={` max-w-[1600px] h-full mx-auto`}
+      > 
+        <ThemeProvider>
+
         {children}
+        </ThemeProvider>
         <ToastWrapper/>
       </body>
     </html>
