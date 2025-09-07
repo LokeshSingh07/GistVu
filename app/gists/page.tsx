@@ -73,25 +73,25 @@ export default function AllGists(){
       {/* header */}
       <AppBar/>
 
-      <div className="max-w-5xl w-full h-full flex flex-col justify-between mx-auto m-10">
+      <div className="max-w-5xl w-full h-full flex flex-col justify-between mx-auto m-10 px-2">
         {/* <h1 className="text-center font-semibold text-xl">All Gists</h1> */}
         
         {gists.length > 0 ? 
           (<div className="flex flex-wrap gap-6">
             {
               gists.map((gist)=>(
-                <div key={gist.id} className="flex flex-col space-y-2 border border-gray-700 p-2 lg:px-6 lg:py-4 rounded-sm">
+                <div key={gist.id} className="w-full max-w-5xl flex flex-col space-y-2 border border-gray-700 px-2 py-3 lg:px-6 lg:py-4 rounded-sm">
                   <div className="flex justify-between items-center">
-                    <h1 className="font-semibold text-xl">{gist?.title}</h1>
+                    <h1 className="font-semibold text-xl text-clamp-1 truncate">{gist?.title}</h1>
                     <div className="flex justify-center items-center gap-2">
-                      <button 
+                      {/* <button 
                         onClick={()=> { }} 
                         className="border border-gray-700 rounded-sm p-2 cursor-not-allowed"
                         title="Edit Gist"
                         disabled 
                       > 
-                        <Pencil size={16}/> 
-                      </button>
+                        <Pencil size={16} color="gray"/> 
+                      </button> */}
                       <button 
                         onClick={()=> { handleDeleteGist(gist.id)}} 
                         className="border border-gray-700 rounded-sm p-2 hover:text-blue-500 cursor-pointer"
@@ -127,17 +127,17 @@ export default function AllGists(){
                       </button>
                     </div>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex-3 line line-clamp-2 text-slate-200">{gist?.code}</div>
-                    <div className="flex-1 flex flex-col justify-center items-end">
-                      <div>
+                  <div className="flex justify-between items-center mt-2">
+                    <div className="flex-5 line line-clamp-2 text-slate-200">{gist?.code}</div>
+                    <div className="flex-2 flex flex-col justify-center items-end">
+                      <div className="text-muted-foreground text-xs md:text-md">
                         {new Date(gist?.updatedAt).toLocaleDateString('en-US', {
                           year: 'numeric',
                           month: 'long',
                           day: 'numeric',
                         })}
                       </div>
-                      <div className="w-fit text-green-600 border border-gray-700 rounded-sm px-2 p-1">Code</div>
+                      <div className="w-fit text-sm md:text-md text-green-600 border border-gray-700 rounded-sm mt-1 px-2 p-1">Code</div>
                     </div>
                   </div>
                 </div>
