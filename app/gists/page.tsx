@@ -28,7 +28,7 @@ export default function AllGists(){
     setLoading(true);
     try{
         const response = await getAllGist();
-        console.log("response : ", response);
+        // console.log("response : ", response);
         setGists(response?.gists ?? []);
     }
     catch(err){

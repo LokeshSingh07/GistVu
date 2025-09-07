@@ -12,7 +12,7 @@ export async function signup({username, password}: credentialsType){
     try{
         const salt = bcrypt.genSaltSync(10);
         const hashedPassword = bcrypt.hashSync(password, salt);
-        console.log("hashed password  :", hashedPassword)
+        // console.log("hashed password  :", hashedPassword)
 
         await prisma?.user.create({
             data: {

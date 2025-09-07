@@ -14,14 +14,21 @@ export default function Gist() {
   const [code, setCode] = useState<string>("");
   const [language, setLanguage] = useState<string>("")
   const [loading, setLoading] = useState(false);
-  let {gistId} = useParams<{ gistId: string }>();
+  const params = useParams<{ gistId: string | string[] }>();
+  const gistId = Array.isArray(params.gistId) ? params.gistId[0] : params.gistId;
+
 
 
   const copyToClipboard = () => {
     if (!code) return;
     
-    navigator.clipboard.writeText(code);
-    toast.success("Code copied to clipboard!");
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(code);
+      toast.success("Code copied to clipboard!");
+    }
+    else{
+      toast.error("Clipboard API not supported in this browser.");
+    }
   };
   
 
@@ -32,8 +39,9 @@ export default function Gist() {
     const fetchData = async()=>{
       try{
         setLoading(true);
-        gistId = gistId[0];
+        // gistId = gistId[0];
         const response = await getSingleGist({gistId});
+        // console.log("repsonse : ", response)
         
         if(!response?.gist?.code){
           toast.error("Failed to load gist content.");
