@@ -1,20 +1,17 @@
 import bcrypt from "bcryptjs";
+import prisma from "../db/index";
 
-
-
-interface credentialsType{
+interface credentialsType {
     username: string,
     password: string
 }
 
-
-export async function signup({username, password}: credentialsType){
-    try{
+export async function signup({ username, password }: credentialsType) {
+    try {
         const salt = bcrypt.genSaltSync(10);
         const hashedPassword = bcrypt.hashSync(password, salt);
-        // console.log("hashed password  :", hashedPassword)
 
-        await prisma?.user.create({
+        await prisma.user.create({
             data: {
                 username,
                 password: hashedPassword
@@ -26,28 +23,25 @@ export async function signup({username, password}: credentialsType){
             message: "Account created",
         }
     }
-    catch (err){
-        return { 
-            success: false, 
+    catch (err) {
+        return {
+            success: false,
             message: "Something went wrong. Please try again later."
         }
     }
 }
 
-
-
-
-export async function signin({username, password}: credentialsType){
-    try{
-        const userDetails  = await prisma?.user.findFirst({
+export async function signin({ username, password }: credentialsType) {
+    try {
+        const userDetails = await prisma.user.findFirst({
             where: {
                 username: username
             }
         })
 
-        if(!userDetails){
-            return { 
-                success: false, 
+        if (!userDetails) {
+            return {
+                success: false,
                 message: "User not found"
             }
         }
@@ -55,20 +49,20 @@ export async function signin({username, password}: credentialsType){
         const passwordMatch = bcrypt.compareSync(password, userDetails.password);
 
         if (!passwordMatch) {
-            return { 
-                success: false, 
+            return {
+                success: false,
                 message: "Invalid credentials"
             };
         }
-      
-        return { 
-            success: true, 
+
+        return {
+            success: true,
             message: "Login successful"
         };
     }
-    catch(err){
-        return { 
-            success: false, 
+    catch (err) {
+        return {
+            success: false,
             message: "Something went wrong. Please try again later."
         }
     }

@@ -12,14 +12,27 @@ interface Gist {
     visibility?: string;
 }
 
+// Generate a random short ID (4-6 characters alphanumeric)
+function generateShortId(): string {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const length = Math.floor(Math.random() * 3) + 4; // Random length between 4-6
+    let result = '';
+    for (let i = 0; i < length; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+}
+
 export async function createGist({title, code, language, userId}: Gist){
     try{
+        const shortId = generateShortId();
         await prisma.gist.create({
             data: {
+                id: shortId,
                 title,
                 code,
                 language: language || "cpp",
-                userId: userId || "afdfcd45-e845-4a86-affd-def1d423ad1e",
+                userId: userId || "fc3c17",
                 visibility: "PUBLIC"
             }
         })
